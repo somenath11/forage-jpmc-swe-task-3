@@ -11,11 +11,12 @@ interface IProps {
 interface PerspectiveViewerElement extends HTMLElement {
   load: (table: Table) => void,
 }
+
 class Graph extends Component<IProps, {}> {
   table: Table | undefined;
 
   render() {
-    return React.createElement('perspective-viewer');
+    return <perspective-viewer />;
   }
 
   componentDidMount() {
@@ -32,15 +33,15 @@ class Graph extends Component<IProps, {}> {
     if (window.perspective && window.perspective.worker()) {
       this.table = window.perspective.worker().table(schema);
     }
+
     if (this.table) {
       // Load the `table` in the `<perspective-viewer>` DOM reference.
       elem.load(this.table);
       elem.setAttribute('view', 'y_line');
-      elem.setAttribute('column-pivots', '["stock"]');
-      elem.setAttribute('row-pivots', '["timestamp"]');
+      elem.setAttribute('column-pivots', '["timestamp"]');
+      elem.setAttribute('row-pivots', '["stock"]');
       elem.setAttribute('columns', '["top_ask_price"]');
       elem.setAttribute('aggregates', JSON.stringify({
-        stock: 'distinctcount',
         top_ask_price: 'avg',
         top_bid_price: 'avg',
         timestamp: 'distinct count',
